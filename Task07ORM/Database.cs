@@ -139,7 +139,6 @@ namespace Task07ORM
                 if (inde == null) continue;
                 foreach (PaEntry en in ((FlexIndex<int>)inde.index).GetAllByKey(key))
                 {
-                    //int ccod = (int)en.Field(1).Get();
                     result.Add(new XElement("inverse", new XAttribute("prop", iprop), GetPortraitById(en, rec)));
                 }
             }

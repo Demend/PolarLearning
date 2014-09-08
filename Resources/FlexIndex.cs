@@ -149,6 +149,23 @@ namespace Polar.Indexes
         private IEnumerable<PaEntry> GetAllFromByKey(PaCell cell, Tkey key)
         {
             PaEntry entry = table.Element(0);
+            var query = cell.Root.BinarySearchAll((PaEntry ent) =>
+            {
+                long off = (long)ent.Get();
+                entry.offset = off;
+                return ((IComparable)keyProducer(entry)).CompareTo(key);
+            })
+            .Select(en =>
+            {
+                entry.offset = (long)en.Get();
+                return entry;
+            })
+            .Where(t_ent => !(bool)t_ent.Field(0).Get()); // остаются только неуничтоженные
+            return query;
+        }
+        private IEnumerable<PaEntry> GetAllFromByKey0(PaCell cell, Tkey key)
+        {
+            PaEntry entry = table.Element(0);
             Diapason dia = cell.Root.BinarySearchDiapason((PaEntry ent) =>
             {
                 long off = (long)ent.Get();

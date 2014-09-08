@@ -17,8 +17,8 @@ namespace Task07ORM
             // Приконнектимся или создадим базу данных
             Database db = new Database(path, XElement.Parse(schema_str));
             // Загрузим тестовые данные
-            int npersons = 10000;
-            bool toload = true;
+            int npersons = 100000;
+            bool toload = false;
             if (toload)
             {
                 sw.Restart();

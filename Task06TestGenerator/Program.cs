@@ -13,10 +13,12 @@ namespace Task06TestGenerator
             Console.WriteLine("Start TestGenerator");
             System.Diagnostics.Stopwatch sw = new System.Diagnostics.Stopwatch();
 
-            SQLdatabase db = new SQLdatabase(@"Data Source=(LocalDB)\v11.0;AttachDbFilename=C:\Users\Александр\Documents\test20140831.mdf;Integrated Security=True;Connect Timeout=30");
+            MySQL db = new MySQL("server=localhost;uid=root;");
+            //SQLite db = new SQLite("Data Source=D:\\home\\dev2012\\PolarLearning\\Task06TestGenerator\\test.db3");
+            //SQLdatabase db = new SQLdatabase(@"Data Source=(LocalDB)\v11.0;AttachDbFilename=C:\Users\Александр\Documents\test20140831.mdf;Integrated Security=True;Connect Timeout=30");
 
-            int npersons = 10000;
-            bool toload = true;
+            int npersons = 1000000;
+            bool toload = false;
             if (toload)
             {
                 sw.Restart();
@@ -40,7 +42,7 @@ namespace Task06TestGenerator
             Console.WriteLine("SelectById ok. Duration={0}", sw.ElapsedMilliseconds); // 7
 
             sw.Restart();
-            db.SearchByName("Марчук", "person");
+            db.SearchByName("Pupkin999", "person");
             sw.Stop();
             Console.WriteLine("SearchByName ok. Duration={0}", sw.ElapsedMilliseconds); // 7
 
