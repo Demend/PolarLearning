@@ -18,7 +18,7 @@ namespace Task07ORM
             Database db = new Database(path, XElement.Parse(schema_str));
             // Загрузим тестовые данные
             int npersons = 100000;
-            bool toload = false;
+            bool toload = true;
             if (toload)
             {
                 sw.Restart();

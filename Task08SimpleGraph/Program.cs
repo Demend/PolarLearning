@@ -56,7 +56,7 @@ namespace Task08SimpleGraph
             sw.Restart();
             XElement res = sg.GetSimplePortrait("person2870");
             sw.Stop();
-            Console.WriteLine(res.ToString());
+            //Console.WriteLine(res.ToString());
             Console.WriteLine("GetSimplePortrait ok. Duration={0}", sw.ElapsedMilliseconds);
 
             XElement format = new XElement("record", new XAttribute("type", "person"),
@@ -71,8 +71,8 @@ namespace Task08SimpleGraph
             sw.Restart();
             res = sg.GetPortrait("person2870", format);
             sw.Stop();
-            Console.WriteLine(res.ToString());
-            Console.WriteLine("Load ok. Duration={0}", sw.ElapsedMilliseconds);
+            //Console.WriteLine(res.ToString());
+            Console.WriteLine("Single portrait ok. Duration={0}", sw.ElapsedMilliseconds);
 
             // Проверка серии портретов
             Random rnd = new Random(999999); int i = 0;
