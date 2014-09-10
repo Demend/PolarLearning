@@ -11,7 +11,7 @@ namespace Task09ExtremeIndex
     public class DataSet
     {
         private string path;
-        private PType tp_persons, tp_photo_docs, tp_reflections, tp_index;
+        private PType tp_persons, tp_photo_docs, tp_reflections; //, tp_index;
         private PaCell cell_persons, cell_photo_docs, cell_reflections;
         private ExtremeIndex index_person_id, index_photo_doc_id, index_reflection_reflected, index_reflection_in_doc;
         public DataSet(string path)
@@ -77,10 +77,20 @@ namespace Task09ExtremeIndex
             index_reflection_reflected.Load();
             index_reflection_in_doc.Load();
         }
+        public void Warmup()
+        {
+            foreach (var v in cell_persons.Root.ElementValues()) ;
+            foreach (var v in cell_photo_docs.Root.ElementValues()) ;
+            foreach (var v in cell_reflections.Root.ElementValues()) ;
+            index_person_id.Warmup();
+            index_photo_doc_id.Warmup();
+            index_reflection_in_doc.Warmup();
+            index_reflection_reflected.Warmup();
+        }
         public int GetRelationByPerson(int id)
         {
             int cnt = 0;
-            var query = index_reflection_reflected.GetAll(id).ToArray();
+            var query = index_reflection_reflected.GetAll(id);
             foreach (var entry in query)
             {
                 int indoc = (int)((object[])entry.Get())[1];

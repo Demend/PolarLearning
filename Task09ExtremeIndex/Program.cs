@@ -18,13 +18,20 @@ namespace Task09ExtremeIndex
             System.Diagnostics.Stopwatch sw = new System.Diagnostics.Stopwatch();
 
             int npersons = 1000000;
-            bool toload = true;
+            bool toload = false;
             if (toload)
             {
                 sw.Restart();
                 ds.LoadXML((new TestDataGenerator(npersons, 777777)).Generate());
                 sw.Stop();
                 Console.WriteLine("Load ok. Duration={0}", sw.ElapsedMilliseconds); // 566
+            }
+            else
+            {
+                sw.Restart();
+                ds.Warmup();
+                sw.Stop();
+                Console.WriteLine("Warmup ok. Duration={0}", sw.ElapsedMilliseconds); // 566
             }
 
             for (int j = 0; j < 100; j++)

@@ -17,8 +17,8 @@ namespace Task06TestGenerator
             //SQLite db = new SQLite("Data Source=D:\\home\\dev2012\\PolarLearning\\Task06TestGenerator\\test.db3");
             //SQLdatabase db = new SQLdatabase(@"Data Source=(LocalDB)\v11.0;AttachDbFilename=C:\Users\Александр\Documents\test20140831.mdf;Integrated Security=True;Connect Timeout=30");
 
-            int npersons = 10000;
-            bool toload = true;
+            int npersons = 100000;
+            bool toload = false;
             if (toload)
             {
                 sw.Restart();

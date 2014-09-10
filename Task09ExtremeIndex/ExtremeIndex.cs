@@ -7,7 +7,6 @@ using PolarDB;
 
 namespace Task09ExtremeIndex
 {
-    // Параметризованный класс, Tkey тип ключа, ключ должен быть упорядочиваемым через CompareTo
     public class ExtremeIndex
     {
         private PaEntry table;
@@ -41,8 +40,24 @@ namespace Task09ExtremeIndex
                 return (int)pair[1];
             });
         }
-        // Возвращает первый вход опорной таблицы, для которого сгенерированный ключ совпадает с образцом
+        public void Warmup()
+        {
+            foreach (var v in index_cell.Root.ElementValues()) ;
+        }
+        // Методом аппроксимации, находит первый вход опорной таблицы, для которого сгенерированный ключ совпадает с образцом
         public PaEntry GetFirstByKey(int key)
+        {
+            if (table.Count() == 0) return PaEntry.Empty;
+            PaEntry entry = table.Element(0);
+            if (key < 0 || key >= index_cell.Root.Count()) throw new Exception("Out of range");
+            PaEntry candidate = index_cell.Root.Element(key);
+            object[] pair = (object[])candidate.Get();
+            if ((int)pair[1] != key) throw new Exception("Assert err: 29991");
+            entry.offset = (long)pair[0];
+            return entry;
+        }
+        // Возвращает первый вход опорной таблицы, для которого сгенерированный ключ совпадает с образцом
+        public PaEntry GetFirstByKey0(int key)
         {
             if (table.Count() == 0) return PaEntry.Empty;
             PaEntry entry = table.Element(0);
