@@ -18,7 +18,7 @@ namespace Task09ExtremeIndex
             System.Diagnostics.Stopwatch sw = new System.Diagnostics.Stopwatch();
 
             int npersons = 1000000;
-            bool toload = false;
+            bool toload = true;
             if (toload)
             {
                 sw.Restart();
@@ -34,10 +34,10 @@ namespace Task09ExtremeIndex
                 Console.WriteLine("Warmup ok. Duration={0}", sw.ElapsedMilliseconds); // 566
             }
 
-            for (int j = 0; j < 100; j++)
+            for (int j = 0; j < 10; j++)
             {
                 sw.Restart();
-                for (int i = 0; i < 100; i++)
+                for (int i = 0; i < 1000; i++)
                 {
                     ds.GetRelationByPerson(rnd.Next(npersons - 1));
                 }
