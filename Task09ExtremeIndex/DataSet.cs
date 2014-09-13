@@ -43,8 +43,11 @@ namespace Task09ExtremeIndex
             cell_photo_docs.Clear(); cell_photo_docs.Fill(new object[0]);
             cell_reflections.Clear(); cell_reflections.Fill(new object[0]);
             // Собственно загрузка
+            int cnt = 0;
             foreach (XElement element in element_flow)
             {
+                cnt++;
+                if (cnt % 100000 == 0) Console.Write("{0} ", cnt / 100000);
                 string type = element.Name.LocalName;
                 string id = element.Attribute("id").Value;
                 if (type == "person")
@@ -67,6 +70,7 @@ namespace Task09ExtremeIndex
                     cell_reflections.Root.AppendElement(new object[] { reflected, in_doc });
                 }
             }
+            Console.WriteLine();
             // Теперь для каждок коллекции надо сделать Flush()
             cell_persons.Flush();
             cell_photo_docs.Flush();

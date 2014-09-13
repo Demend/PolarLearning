@@ -17,8 +17,8 @@ namespace Task09ExtremeIndex
             Random rnd = new Random();
             System.Diagnostics.Stopwatch sw = new System.Diagnostics.Stopwatch();
 
-            int npersons = 1000000;
-            bool toload = true;
+            int npersons = 20000000;
+            bool toload = false;
             if (toload)
             {
                 sw.Restart();
