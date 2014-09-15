@@ -98,7 +98,7 @@ namespace Task09ExtremeIndex
             return query;
         }
         // ===== Метод 3 =====
-        private bool opt3 = true;
+        private bool opt3 = false;
         // Дополнительная таблица
         PaCell additional_index;
         private void Opt3Init(string indexName)
