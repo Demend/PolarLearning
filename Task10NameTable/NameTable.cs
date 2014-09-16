@@ -21,7 +21,7 @@ namespace Task10NameTable
             tp_csseq = new PTypeSequence(new PTypeRecord(
                 new NamedType("code", new PType(PTypeEnumeration.integer)),
                 new NamedType("string", new PType(PTypeEnumeration.sstring))));
-            csspath = path + "ssequence.pac";
+            csspath = path + "cssequence.pac";
             cssequence = new PaCell(tp_csseq, csspath, false);
             if (cssequence.IsEmpty) cssequence.Fill(new object[0]);
             offsets = new PaCell(new PTypeSequence(new PType(PTypeEnumeration.longinteger)), path + "offsets.pac", false);
@@ -32,14 +32,25 @@ namespace Task10NameTable
                 if (cssequence.IsEmpty || cssequence.Root.Count() == 0) throw new Exception("Unfilled data in NameTable");
                 PaEntry ent = cssequence.Root.Element(0);
                 ent.offset = off;
-                return (string)ent.Get();
+                return (string)ent.Field(1).Get();
             };
         }
-        public void Load()
+        public void Clear()
         {
-            
+            cssequence.Clear(); cssequence.Fill(new object[0]);
         }
-        public Dictionary<string, int> InsertPortion(string[] sorted_arr) //(IEnumerable<string> portion)
+        public void Show()
+        {
+            //PType tp = new PTypeRecord(
+            //    new NamedType("code", new PType(PTypeEnumeration.integer)),
+            //    new NamedType("string", new PType(PTypeEnumeration.sstring)));
+            //foreach (var pv in cssequence.Root.ElementValues())
+            //{
+            //    Console.WriteLine(tp.Interpret(pv));
+            //}
+            Console.WriteLine("nelements={0}", cssequence.Root.Count());
+        }
+        public Dictionary<string, int> InsertPortion(string[] sorted_arr)
         {
             string[] ssa = sorted_arr;
             if (ssa.Length == 0) return new Dictionary<string, int>();
@@ -107,7 +118,7 @@ namespace Task10NameTable
                 while (ssa_ind <= ssa.Length);
             }
 
-            //target.Close();
+            target.Flush();
             source.Close();
             System.IO.File.Delete(path + "tmp.pac");
             cssequence = target;
