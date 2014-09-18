@@ -13,6 +13,7 @@ namespace Task10NameTable
         private string path, csspath;
         private PType tp_csseq;
         private PaCell cssequence, offsets;
+        private PaCell index;
         public Func<int, string> GetStringByCode;
         public Func<string, int> GetCodeByString;
         public NameTable(string path)
@@ -25,6 +26,10 @@ namespace Task10NameTable
             cssequence = new PaCell(tp_csseq, csspath, false);
             if (cssequence.IsEmpty) cssequence.Fill(new object[0]);
             offsets = new PaCell(new PTypeSequence(new PType(PTypeEnumeration.longinteger)), path + "offsets.pac", false);
+            index = new PaCell(new PTypeSequence(new PTypeRecord(
+                new NamedType("offset", new PType(PTypeEnumeration.longinteger)),
+                new NamedType("code", new PType(PTypeEnumeration.integer)))),
+                path + "index.pac", false);
             Func<int, string> GetStringByCode = (int code) => 
             {
                 if (offsets.IsEmpty || code < 0 || code >= offsets.Root.Count()) throw new Exception("Unfilled data in NameTable");
@@ -41,14 +46,41 @@ namespace Task10NameTable
         }
         public void Show()
         {
-            //PType tp = new PTypeRecord(
-            //    new NamedType("code", new PType(PTypeEnumeration.integer)),
-            //    new NamedType("string", new PType(PTypeEnumeration.sstring)));
-            //foreach (var pv in cssequence.Root.ElementValues())
-            //{
-            //    Console.WriteLine(tp.Interpret(pv));
-            //}
             Console.WriteLine("nelements={0}", cssequence.Root.Count());
+            //object[] ipair = (object[])index.Root.Element(88888).Get();
+            //Console.WriteLine("{0} {1}", ipair[0], ipair[1]);
+            //PaEntry ent = cssequence.Root.Element(0);
+            //ent.offset = (long)ipair[0];
+            //object[] ipair2 = (object[])ent.Get();
+            //Console.WriteLine("{0} {1}", ipair2[0], ipair2[1]);
+        }
+        // Создание индекса offsets
+        public void CreateIndex()
+        {
+            if (cssequence.IsEmpty) throw new Exception("Unfilled data in NameTable");
+            if (cssequence.Root.Count() == 0) return;
+            //offsets.Clear(); offsets.Fill(new object[0]);
+            //foreach (PaEntry entry in cssequence.Root.Elements())
+            //{
+            //    offsets.Root.AppendElement(entry.offset);
+            //}
+            //offsets.Flush();
+            //PaEntry ent = cssequence.Root.Element(0);
+            //offsets.Root.SortByKey<int>(ob =>
+            //{
+            //    ent.offset = (long)ob;
+            //    return (int)ent.Field(0).Get();
+            //});
+            index.Clear(); index.Fill(new object[0]);
+            cssequence.Root.Scan((off, ob) =>
+                {
+                    object[] pair = (object[])ob;
+                    index.Root.AppendElement(new object[] { off, (int)pair[0] });
+                    return true;
+                });
+            index.Flush();
+            index.Root.SortByKey<int>(ob => (int)((object[])ob)[1]);
+            
         }
         public Dictionary<string, int> InsertPortion(string[] sorted_arr)
         {
