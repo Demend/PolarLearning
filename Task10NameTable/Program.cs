@@ -15,7 +15,7 @@ namespace Task10NameTable
             NameTable nt = new NameTable("../../../Databases/");
             Random rnd = new Random();
 
-            int portion = 10000;
+            int portion = 1000000;
             bool toload = true;
             if (toload)
             {
@@ -26,11 +26,11 @@ namespace Task10NameTable
                     HashSet<string> hs = new HashSet<string>();
                     for (int j = 0; j < portion; j++)
                     {
-                        string s = "s" + rnd.Next(100);
+                        string s = "s" + rnd.Next();
                         hs.Add(s);
                     }
-                    nt.InsertPortion(hs.ToArray());
-                    Console.Write("{0} ", i);
+                    nt.InsertPortion(hs.OrderBy(s => s).ToArray());
+                    Console.Write("{0} ", i + 1);
                 }
                 sw.Stop();
                 Console.WriteLine("\nLoad ok. Duration={0}", sw.ElapsedMilliseconds);
@@ -38,7 +38,7 @@ namespace Task10NameTable
                 sw.Restart();
                 nt.CreateIndex();
                 sw.Stop();
-                Console.WriteLine("\nLoad ok. Duration={0}", sw.ElapsedMilliseconds);
+                Console.WriteLine("\nIndex ok. Duration={0}", sw.ElapsedMilliseconds);
             }
 
             nt.Show();
